@@ -1,0 +1,23 @@
+.about {
+	padding: 120px 0;
+	background-color: var(--color-main-dark);
+}
+
+.about__container {
+	display: flex;
+	gap: 80px;
+	align-items: center;
+	justify-content: center;
+}
+
+
+.about__text {
+	color: var(--color-text-gray);
+	margin-bottom: 20px;
+	font-size: 16px;
+	max-width: 500px;
+}
+.text-gold {
+	color: var(--color-gold);
+	text-shadow: 0 0 20px rgba(198, 162, 102, 0.4);
+}

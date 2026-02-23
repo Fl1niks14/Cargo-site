@@ -1,0 +1,116 @@
+.hero {
+	position: relative;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	background-image: url('img/Rectangle\ 2.png');
+	/* Путь к фото с грузовиком */
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	/* Эффект параллакса */
+	overflow: hidden;
+}
+
+/* Сложное наложение для "киношного" эффекта */
+.hero__overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(circle at 70% 50%,
+			rgba(30, 32, 36, 0.4) 0%,
+			rgba(18, 18, 18, 0.9) 100%);
+	z-index: 1;
+}
+
+.hero__container {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.hero__content {
+	max-width: 800px;
+}
+
+.hero__title {
+	font-size: clamp(40px, 8vw, 84px);
+	font-weight: 900;
+	text-transform: uppercase;
+	line-height: 0.9;
+	letter-spacing: -2px;
+	margin-bottom: 30px;
+}
+
+.hero__title span {
+	color: var(--color-gold);
+	-webkit-text-stroke: 1px var(--color-gold);
+	/* Эффект контурного текста (опционально для стиля) */
+	background: var(--gold-gradient);
+	-webkit-text-fill-color: transparent;
+}
+
+.hero__description {
+	font-size: 18px;
+	color: var(--color-text-gray);
+	max-width: 550px;
+	border-left: 2px solid var(--color-gold);
+	padding-left: 25px;
+	margin-bottom: 40px;
+}
+
+.hero__actions {
+	display: flex;
+	gap: 20px;
+}
+
+/* Вторая кнопка - контурная */
+.btn-outline {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	color: #fff;
+	padding: 16px 42px;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 13px;
+	letter-spacing: 1px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+	border-color: var(--color-gold);
+	background: rgba(255, 255, 255, 0.05);
+}
+
+/* Анимация мышки */
+.hero__scroll {
+	position: absolute;
+	bottom: 40px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	opacity: 0.6;
+}
+
+.hero__scroll-icon {
+	animation: mouse-float 2s infinite ease-in-out;
+}
+
+@keyframes mouse-float {
+
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(10px);
+	}
+}
