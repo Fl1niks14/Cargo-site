@@ -4,7 +4,7 @@ import './Footer.css'
 
 const Footer: React.FC = () => {
 	return (
-		<footer className='footer'>
+		<footer id='footer' className='footer'>
 			<div className='container footer__container'>
 				<div className='footer__brand'>
 					<div className='footer__logo'>

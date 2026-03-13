@@ -1,149 +1,184 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import {
 	Calculator as CalcIcon,
 	Send,
 	ArrowRight,
+	ArrowLeft,
 	Zap,
-	RefreshCcw
+	RefreshCcw,
+	Box
 } from 'lucide-react'
 import './Calculator.css'
 
-const Calculator: React.FC = () => {
-	const location = useLocation()
-	const initialService = location.state?.serviceName || 'Автоперевозки'
+// --- НАСТРОЙКИ МАРКЕРОВ (исправляем пути к иконкам) ---
 
+const serviceOptions = [
+	{ id: 'truck', title: 'Автоперевозки', coeff: 1.0 },
+	{ id: 'air', title: 'Авиаперевозки', coeff: 2.5 },
+	{ id: 'ship', title: 'Морские фрахты', coeff: 0.7 },
+	{ id: 'express', title: 'Срочная доставка', coeff: 3.0 }
+]
+
+const CalculatorPage: React.FC = () => {
+	const navigate = useNavigate()
+	const location = useLocation()
+
+	const [selectedService, setSelectedService] = useState(
+		location.state?.serviceName || 'Автоперевозки'
+	)
+	const [fromCity, setFromCity] = useState('')
+	const [toCity, setToCity] = useState('')
 	const [weight, setWeight] = useState(100)
-	const [distance, setDistance] = useState(500)
+	const distance = 0
+
 	const [isLoading, setIsLoading] = useState(false)
 	const [isSent, setIsSent] = useState(false)
 
-	const totalPrice = weight * 0.5 + distance * 1.2
+	const currentCoeff =
+		serviceOptions.find(s => s.title === selectedService)?.coeff || 1
+	const totalPrice = Math.round(
+		(weight * 0.8 + distance * 1.5 + 5000) * currentCoeff
+	)
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		setIsLoading(true)
-		setTimeout(() => {
+		try {
+			const res = await fetch('http://localhost:5000/api/requests', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					service: selectedService,
+					from: fromCity,
+					to: toCity,
+					weight,
+					distance,
+					price: totalPrice
+				})
+			})
+			if (res.ok) setIsSent(true)
+		} catch (err) {
+			alert('Сервер не отвечает!')
+		} finally {
 			setIsLoading(false)
-			setIsSent(true)
-		}, 2000)
+		}
 	}
 
 	return (
-		<div className='calculator-page'>
+		<div className='calculator-page reveal-visible'>
 			<div className='container'>
+				<button className='btn-back' onClick={() => navigate('/')}>
+					<ArrowLeft size={18} /> <span>Вернуться на главную</span>
+				</button>
+
 				<div className='cargo-line'></div>
 				<h1 className='section-title'>
-					Расчет <span className='text-gold'>фрахта</span>
+					Интеллектуальный <span className='text-gold'>расчет</span>
 				</h1>
 
 				<div className='calc-grid'>
-					{/* ОСНОВНОЙ БЛОК ФОРМЫ ИЛИ УСПЕХА */}
 					<div className='calc-main-column'>
 						{!isSent ? (
 							<form className='calc-form' onSubmit={handleSubmit}>
 								<div className='input-group'>
-									<label>Тип услуги</label>
-									<input
-										type='text'
-										value={initialService}
-										readOnly
-										className='input-disabled'
-									/>
-								</div>
-
-								<div className='input-row-ranges'>
-									<div className='input-group'>
-										<label>
-											Вес груза (кг): <strong>{weight}</strong>
-										</label>
-										<input
-											type='range'
-											min='10'
-											max='20000'
-											step='10'
-											value={weight}
-											onChange={e => setWeight(+e.target.value)}
-										/>
-									</div>
-									<div className='input-group'>
-										<label>
-											Дистанция (км): <strong>{distance}</strong>
-										</label>
-										<input
-											type='range'
-											min='100'
-											max='10000'
-											step='50'
-											value={distance}
-											onChange={e => setDistance(+e.target.value)}
-										/>
+									<label>Тип фрахта</label>
+									<div className='select-wrapper'>
+										<Box size={18} className='select-icon' />
+										<select
+											value={selectedService}
+											onChange={e => setSelectedService(e.target.value)}
+											className='custom-select'
+										>
+											{serviceOptions.map(opt => (
+												<option key={opt.id} value={opt.title}>
+													{opt.title}
+												</option>
+											))}
+										</select>
 									</div>
 								</div>
 
 								<div className='input-row-cities'>
-									<input
-										type='text'
-										placeholder='Откуда'
-										className='input-field'
-										required
+									<div className='input-group'>
+										<label>Откуда</label>
+										<input
+											type='text'
+											required
+											value={fromCity}
+											onChange={e => setFromCity(e.target.value)}
+											className='input-field'
+											placeholder='Город'
+										/>
+									</div>
+									<ArrowRight
+										className='text-gold'
+										style={{ marginTop: '25px' }}
 									/>
-									<ArrowRight className='text-gold' size={20} />
+									<div className='input-group'>
+										<label>Куда</label>
+										<input
+											type='text'
+											required
+											value={toCity}
+											onChange={e => setToCity(e.target.value)}
+											className='input-field'
+											placeholder='Город'
+										/>
+									</div>
+								</div>
+
+								<div className='input-group'>
+									<label>
+										Масса: <strong>{weight} кг</strong>
+									</label>
 									<input
-										type='text'
-										placeholder='Куда'
-										className='input-field'
-										required
+										type='range'
+										min='10'
+										max='15000'
+										value={weight}
+										onChange={e => setWeight(+e.target.value)}
 									/>
 								</div>
 
 								<button
 									className='btn-gold btn-full'
 									type='submit'
-									disabled={isLoading}
+									disabled={isLoading || distance === 0}
 								>
 									{isLoading ? (
 										<span className='loader'></span>
 									) : (
 										<>
-											<Send size={18} /> Отправить заявку
+											<Send size={18} /> Оформить заказ
 										</>
 									)}
 								</button>
 							</form>
 						) : (
 							<div className='success-message'>
-								<div className='success-icon'>
-									<Zap size={48} color='var(--color-gold)' />
-								</div>
-								<h2 className='success-title'>
-									Заявка <span className='text-gold'>принята!</span>
-								</h2>
-								<p className='success-text'>
-									Менеджер «РусКарго» свяжется с вами в течение 5 минут для
-									уточнения деталей.
-								</p>
+								<Zap size={48} color='var(--color-gold)' />
+								<h2>Заявка принята!</h2>
+								<p>Маршрут сохранен в базе MongoDB</p>
 								<button
 									className='btn-outline'
 									onClick={() => setIsSent(false)}
 								>
-									<RefreshCcw size={16} /> Рассчитать еще раз
+									<RefreshCcw size={14} /> Новый расчет
 								</button>
 							</div>
 						)}
 					</div>
 
-					{/* ВИДЖЕТ РЕЗУЛЬТАТА (ВСЕГДА ВИДЕН) */}
 					<div className='calc-result'>
 						<div className='result-card'>
 							<CalcIcon size={40} className='text-gold' />
-							<h3>Предварительная стоимость</h3>
+							<h3>Предварительный итог</h3>
 							<div className='price-display'>
-								<span>~</span> {totalPrice.toLocaleString()} <span>₽</span>
+								{totalPrice.toLocaleString()} ₽
 							</div>
-							<p className='result-notice'>
-								* Расчет выполнен по базовому тарифу 2026 года
-							</p>
+							<div className='dist-info-badge'>{distance} км по маршруту</div>
 						</div>
 					</div>
 				</div>
@@ -152,4 +187,4 @@ const Calculator: React.FC = () => {
 	)
 }
 
-export default Calculator
+export default CalculatorPage

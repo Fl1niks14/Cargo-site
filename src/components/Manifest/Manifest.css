@@ -1,0 +1,86 @@
+.manifest {
+	padding: 150px 0;
+	background-color: var(--color-main-dark);
+	position: relative;
+	overflow: hidden;
+}
+
+.manifest__grid {
+	display: grid;
+	grid-template-columns: 1fr 1.2fr;
+	gap: 100px;
+	align-items: center;
+}
+
+.manifest__main-text {
+	font-size: 20px;
+	line-height: 1.6;
+	color: var(--color-text-white);
+	margin-top: 30px;
+	opacity: 0.9;
+}
+
+/* Принципы справа */
+.manifest__principles {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.principle-item {
+	display: flex;
+	gap: 25px;
+	padding: 30px;
+	background: rgba(255, 255, 255, 0.02);
+	border-left: 2px solid transparent;
+	transition: all 0.4s ease;
+}
+
+.principle-item:hover {
+	background: rgba(198, 162, 102, 0.05);
+	border-left-color: var(--color-gold);
+	transform: translateX(10px);
+}
+
+.principle-item__icon {
+	color: var(--color-gold);
+	flex-shrink: 0;
+}
+
+.principle-item__title {
+	font-size: 18px;
+	font-weight: 800;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+	letter-spacing: 1px;
+}
+
+.principle-item__text {
+	font-size: 14px;
+	color: var(--color-text-gray);
+	line-height: 1.5;
+}
+
+/* Фоновый декоративный текст */
+.manifest__bg-text {
+	position: absolute;
+	bottom: -50px;
+	left: 0;
+	font-size: 250px;
+	font-weight: 900;
+	color: rgba(255, 255, 255, 0.02);
+	white-space: nowrap;
+	pointer-events: none;
+	z-index: 0;
+}
+
+@media (max-width: 992px) {
+	.manifest__grid {
+		grid-template-columns: 1fr;
+		gap: 60px;
+	}
+
+	.manifest__bg-text {
+		font-size: 100px;
+	}
+}

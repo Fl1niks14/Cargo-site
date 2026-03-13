@@ -4,7 +4,7 @@ import routesConfig from './rootConfig/rootConfig'
 const App: React.FC = () => {
 	return (
 		<>
-			<Router>
+			<Router basename='/Cargo-site'>
 				<Routes>
 					{routesConfig.map((route, index) => {
 						const Component = route.Component

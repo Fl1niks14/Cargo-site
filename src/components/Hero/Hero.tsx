@@ -1,11 +1,13 @@
 import React from 'react'
 import { Mouse } from 'lucide-react'
+import { useNavigate } from 'react-router-dom' // Добавили useNavigate для кнопки
 import './Hero.css'
 
 const Hero: React.FC = () => {
+	const navigate = useNavigate()
+
 	return (
 		<section className='hero'>
-			{/* Фоновое изображение с наложением градиента */}
 			<div className='hero__overlay'></div>
 
 			<div className='container hero__container'>
@@ -23,12 +25,23 @@ const Hero: React.FC = () => {
 					</div>
 
 					<div className='hero__actions'>
-						<button className='btn-gold'>Рассчитать стоимость</button>
-						<button className='btn-outline'>Наши услуги</button>
+						<button className='btn-gold' onClick={() => navigate('/calc')}>
+							Рассчитать стоимость
+						</button>
+
+						<button
+							className='btn-outline'
+							onClick={() =>
+								document
+									.getElementById('services')
+									?.scrollIntoView({ behavior: 'smooth' })
+							}
+						>
+							Наши услуги
+						</button>
 					</div>
 				</div>
 
-				{/* Индикатор скролла снизу */}
 				<div className='hero__scroll'>
 					<Mouse size={32} strokeWidth={1} className='hero__scroll-icon' />
 					<div className='hero__scroll-dot'></div>

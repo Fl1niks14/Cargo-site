@@ -1,0 +1,22 @@
+// Внутри Calculator.tsx добавить:
+const [fromCoord,
+setFromCoord]=useState<[number,
+number] | undefined>();
+const [toCoord,
+setToCoord]=useState<[number,
+number] | undefined>();
+
+// В useEffect, где ты получаешь данные от Nominatim, добавь:
+if (data1 && data1[0]) setFromCoord([parseFloat(data1[0].lat), parseFloat(data1[0].lon)]);
+if (data2 && data2[0]) setToCoord([parseFloat(data2[0].lat), parseFloat(data2[0].lon)]);
+
+// В return компонента вставь карту рядом с формой:
+<div className="calc-grid"><form className="calc-form">...</form><div className="calc-visual-block"><DeliveryMap fromCoord= {
+	fromCoord
+}
+
+toCoord= {
+	toCoord
+}
+
+/><div className="result-card">...</div></div></div>
