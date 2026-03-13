@@ -1,0 +1,242 @@
+.admin-page {
+	padding: 140px 0 100px;
+	background: radial-gradient(circle at 90% 10%, rgba(198, 162, 102, 0.05) 0%, transparent 40%);
+}
+
+.admin-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 50px;
+}
+
+/* --- СТИЛЬ КНОПКИ ОБНОВЛЕНИЯ --- */
+.btn-refresh-modern {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	background: rgba(198, 162, 102, 0.05);
+	border: 1px solid var(--color-gold);
+	padding: 14px 28px;
+	color: var(--color-gold);
+	font-size: 12px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	cursor: pointer;
+	overflow: hidden;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-refresh-modern:hover:not(:disabled) {
+	background: var(--color-gold);
+	color: #000;
+	box-shadow: 0 0 25px rgba(198, 162, 102, 0.4);
+	transform: translateY(-2px);
+}
+
+.btn-refresh-icon {
+	display: flex;
+	align-items: center;
+	transition: transform 0.6s ease;
+}
+
+.is-loading .btn-refresh-icon {
+	animation: spin-custom 1s linear infinite;
+}
+
+@keyframes spin-custom {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.btn-shimmer {
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 50%;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+	transition: 0.5s;
+}
+
+.btn-refresh-modern:hover .btn-shimmer {
+	left: 150%;
+	transition: 0.8s;
+}
+
+/* --- СЕТКА И КАРТОЧКИ --- */
+.orders-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+	gap: 25px;
+}
+
+.admin-card {
+	background: var(--color-card-dark);
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	padding: 30px;
+	position: relative;
+	transition: all 0.4s ease;
+}
+
+.admin-card:hover {
+	transform: translateY(-8px);
+	border-color: var(--color-gold);
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.admin-card__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.order-date {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 11px;
+	color: var(--color-text-gray);
+	font-weight: 600;
+}
+
+.status-tag {
+	padding: 4px 10px;
+	font-size: 9px;
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	border-radius: 2px;
+}
+
+.tag-new {
+	background: rgba(198, 162, 102, 0.15);
+	color: var(--color-gold);
+}
+
+.tag-done {
+	background: rgba(76, 175, 80, 0.15);
+	color: #4CAF50;
+}
+
+.order-service {
+	font-size: 20px;
+	font-weight: 800;
+	color: #fff;
+	margin-bottom: 12px;
+}
+
+.order-route {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--color-text-gray);
+}
+
+.route-arrow {
+	opacity: 0.3;
+}
+
+.order-stats {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 25px 0;
+	padding: 15px 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.03);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.stat-item {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.stat-label {
+	font-size: 10px;
+	text-transform: uppercase;
+	color: var(--color-text-gray);
+	letter-spacing: 1px;
+}
+
+.stat-value {
+	font-size: 15px;
+	font-weight: 700;
+	color: #fff;
+}
+
+.order-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.order-price {
+	font-size: 24px;
+	font-weight: 900;
+	color: var(--color-gold);
+}
+
+.order-price span {
+	font-size: 14px;
+	opacity: 0.6;
+}
+
+.order-actions {
+	display: flex;
+	gap: 15px;
+}
+
+.action-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--color-text-gray);
+	transition: 0.3s ease;
+}
+
+.btn-complete:hover {
+	color: #4CAF50;
+	transform: scale(1.2);
+}
+
+.btn-delete:hover {
+	color: #f44336;
+	transform: scale(1.2);
+}
+
+.empty-state {
+	text-align: center;
+	padding: 100px 0;
+	color: var(--color-text-gray);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+
+/* Дополнительные эффекты для диплома */
+.admin-card::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 3px;
+	height: 0;
+	background: var(--color-gold);
+	transition: 0.4s;
+}
+
+.admin-card:hover::after {
+	height: 100%;
+}
