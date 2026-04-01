@@ -1,0 +1,131 @@
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 80px;
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(10px);
+	border-bottom: 1px solid #f0f0f0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+}
+
+.header__container {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.header__col {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	/* Равное распределение */
+}
+
+/* Центрируем навигацию */
+.header__col--center {
+	justify-content: center;
+}
+
+.nav__links {
+	display: flex;
+	gap: 40px;
+	/* Расстояние между ссылками */
+}
+
+.nav__links a {
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	color: #aaa;
+	transition: 0.3s;
+}
+
+.nav__links a:hover,
+.nav__links a.active {
+	color: #1a1a1a;
+}
+
+/* Правая часть: Профиль и Выход */
+.header__col--right {
+	justify-content: flex-end;
+}
+
+.user-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.user-pill {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: #f8f8f8;
+	padding: 10px 20px;
+	border-radius: 100px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: #1a1a1a;
+	transition: 0.3s;
+}
+
+.user-pill:hover {
+	background: #eee;
+}
+
+.logout-icon-btn {
+	background: none;
+	border: none;
+	color: #aaa;
+	cursor: pointer;
+	padding: 5px;
+	transition: 0.3s;
+}
+
+.logout-icon-btn:hover {
+	color: #ff3b30;
+	transform: scale(1.1);
+}
+
+.header__logo {
+	font-size: 1.2rem;
+	font-weight: 800;
+	letter-spacing: 2px;
+}
+
+.header__logo span {
+	color: #C6A266;
+}
+
+.login-pill {
+	background: #1a1a1a;
+	color: #fff;
+	padding: 12px 30px;
+	border-radius: 100px;
+	font-size: 0.75rem;
+	font-weight: 700;
+}.header__center {
+	display: flex;
+	gap: 40px;
+	/* Увеличиваем расстояние между ГЛАВНАЯ, КАЛЬКУЛЯТОР, ТАРИФЫ */
+	justify-content: center;
+}
+
+.header__center a {
+	color: #999;
+	/* Делаем чуть светлее, чтобы не спорили с ЛОГО */
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+}
+
+.header__center a:hover {
+	color: #1a1a1a;
+}

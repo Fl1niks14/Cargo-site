@@ -1,15 +1,15 @@
-import AdminPanel from '../components/AdminPage/AdminPanel'
+import Auth from '../components/Auth/Auth'
 import Footer from '../components/Home/Footer/Footer'
 import TopHeader from '../components/Home/Header/Header'
 
-const Admin: React.FC = () => {
+const AuthPage: React.FC = () => {
 	return (
 		<>
 			<TopHeader />
-			<AdminPanel />
+			<Auth />
 			<Footer />
 		</>
 	)
 }
 
-export default Admin
+export default AuthPage

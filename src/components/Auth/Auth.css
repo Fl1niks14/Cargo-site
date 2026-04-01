@@ -1,0 +1,104 @@
+.auth-page {
+	min-height: 80vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	padding: 100px 0;
+}
+
+.auth-card {
+	width: 100%;
+	max-width: 420px;
+	padding: 60px 40px;
+	background: #fff;
+	text-align: center;
+}
+
+.auth-card__title {
+	font-size: 2.5rem;
+	font-weight: 300;
+	margin-bottom: 40px;
+	letter-spacing: -1px;
+}
+
+.auth-card__form {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+/* Цвет инпутов как на твоем скриншоте */
+.auth-input {
+	width: 100%;
+	background: #EEF3FF;
+	/* Тот самый нежно-голубой */
+	border: none;
+	padding: 20px 25px;
+	font-size: 1rem;
+	outline: none;
+	transition: background 0.3s;
+}
+
+.auth-input:focus {
+	background: #E5EDFF;
+}
+
+/* Кнопка-таблетка из Veloretti */
+.btn-auth-pill {
+	width: 100%;
+	background: #1a1a1a;
+	color: #fff;
+	border: none;
+	padding: 22px;
+	border-radius: 100px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-top: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all 0.3s;
+}
+
+.btn-auth-pill:hover {
+	background: #333;
+	transform: translateY(-2px);
+}
+
+.btn-auth-pill:disabled {
+	background: #eee;
+	color: #aaa;
+}
+
+.auth-switch-btn {
+	background: none;
+	border: none;
+	color: #999;
+	margin-top: 25px;
+	font-size: 0.9rem;
+	cursor: pointer;
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.auth-switch-btn:hover {
+	color: #1a1a1a;
+}
+
+.spin {
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}

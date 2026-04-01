@@ -1,0 +1,129 @@
+.pricing {
+	padding: 140px 0;
+	background: #fff;
+	border-top: 1px solid #f0f0f0;
+}
+
+.pricing__header {
+	margin-bottom: 80px;
+	max-width: 600px;
+}
+
+.pricing__tag {
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	font-size: 0.7rem;
+	color: #d4a373;
+	font-weight: 700;
+	margin-bottom: 20px;
+	display: block;
+}
+
+.pricing__title {
+	font-size: 3.5rem;
+	font-weight: 300;
+	line-height: 1;
+	margin-bottom: 30px;
+}
+
+.pricing__title span {
+	font-weight: 600;
+}
+
+.pricing__subtitle {
+	color: #888;
+	line-height: 1.6;
+}
+
+/* Сетка тарифов */
+.pricing__grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1px;
+	/* Тонкие линии между карточками */
+	background: #eee;
+	/* Цвет линий через gap */
+	border: 1px solid #eee;
+}
+
+.pricing-card {
+	background: #fff;
+	padding: 60px 40px;
+	display: flex;
+	flex-direction: column;
+	transition: transform 0.3s ease;
+}
+
+.pricing-card--featured {
+	background: #fafafa;
+	/* Выделенный тариф */
+}
+
+.pricing-card__icon {
+	color: #1a1a1a;
+	margin-bottom: 30px;
+}
+
+.pricing-card__title {
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-bottom: 15px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.pricing-card__desc {
+	font-size: 0.9rem;
+	color: #888;
+	margin-bottom: 30px;
+	min-height: 45px;
+}
+
+.pricing-card__price {
+	font-size: 2rem;
+	font-weight: 700;
+	margin-bottom: 40px;
+	color: #1a1a1a;
+}
+
+.pricing-card__features {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 50px 0;
+	flex-grow: 1;
+}
+
+.pricing-card__features li {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 0.9rem;
+	color: #666;
+	margin-bottom: 12px;
+}
+
+.pricing-card__btn {
+	padding: 18px;
+	border: 1px solid #1a1a1a;
+	background: transparent;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.pricing-card__btn:hover {
+	background: #1a1a1a;
+	color: #fff;
+}
+
+.pricing__info-box {
+	margin-top: 60px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	color: #aaa;
+	font-size: 0.85rem;
+}

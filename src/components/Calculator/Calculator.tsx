@@ -1,190 +1,298 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation, useNavigate } from 'react-router-dom'
-
 import {
-	Calculator as CalcIcon,
-	Send,
 	ArrowRight,
 	ArrowLeft,
-	Zap,
-	RefreshCcw,
-	Box
+	CheckCircle2,
+	MapPin,
+	Loader2,
+	Clock
 } from 'lucide-react'
+import toast from 'react-hot-toast'
 import './Calculator.css'
 
-// --- НАСТРОЙКИ МАРКЕРОВ (исправляем пути к иконкам) ---
+interface OrderData {
+	from: string
+	to: string
+	weight: number
+	vehicleType: 'small' | 'medium' | 'large'
+	comment: string
+}
 
-const serviceOptions = [
-	{ id: 'truck', title: 'Автоперевозки', coeff: 1.0 },
-	{ id: 'air', title: 'Авиаперевозки', coeff: 2.5 },
-	{ id: 'ship', title: 'Морские фрахты', coeff: 0.7 },
-	{ id: 'express', title: 'Срочная доставка', coeff: 3.0 }
-]
-
-const CalculatorPage: React.FC = () => {
-	const navigate = useNavigate()
+const Calculator: React.FC = () => {
 	const location = useLocation()
+	const navigate = useNavigate()
+	const calcRef = useRef<HTMLDivElement>(null)
 
-	const [selectedService, setSelectedService] = useState(
-		location.state?.serviceName || 'Автоперевозки'
-	)
-	const [fromCity, setFromCity] = useState('')
-	const [toCity, setToCity] = useState('')
-	const [weight, setWeight] = useState(100)
-	const distance = 0
+	const [step, setStep] = useState(1)
+	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [isSuccess, setIsSuccess] = useState(false)
+	const [user, setUser] = useState<any>(null)
 
-	const [isLoading, setIsLoading] = useState(false)
-	const [isSent, setIsSent] = useState(false)
+	const [formData, setFormData] = useState<OrderData>({
+		from: '',
+		to: '',
+		weight: 0,
+		vehicleType: 'small',
+		comment: ''
+	})
 
-	const currentCoeff =
-		serviceOptions.find(s => s.title === selectedService)?.coeff || 1
-	const totalPrice = Math.round(
-		(weight * 0.8 + distance * 1.5 + 5000) * currentCoeff
-	)
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault()
-		setIsLoading(true)
-		try {
-			const res = await fetch('http://localhost:5000/api/requests', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					service: selectedService,
-					from: fromCity,
-					to: toCity,
-					weight,
-					distance,
-					price: totalPrice
-				})
-			})
-			if (res.ok) setIsSent(true)
-		} catch (err) {
-			alert('Сервер не отвечает!')
-		} finally {
-			setIsLoading(false)
+	useEffect(() => {
+		const savedUser = localStorage.getItem('currentUser')
+		if (savedUser) setUser(JSON.parse(savedUser))
+		if (location.state?.selectedVehicle) {
+			setFormData(prev => ({
+				...prev,
+				vehicleType: location.state.selectedVehicle
+			}))
 		}
+		if (location.state?.scrollTo) {
+			setTimeout(
+				() =>
+					calcRef.current?.scrollIntoView({
+						behavior: 'smooth',
+						block: 'center'
+					}),
+				150
+			)
+		}
+	}, [location.state])
+
+	const totalPrice = useMemo(() => {
+		if (!formData.from || !formData.to) return 0
+		const mult = { small: 1, medium: 1.5, large: 2.5 }
+		return Math.round(
+			(4500 + formData.weight * 15) * mult[formData.vehicleType]
+		)
+	}, [formData])
+
+	const handleBooking = async () => {
+		if (!user) {
+			toast.error('Войдите для бронирования')
+			navigate('/login')
+			return
+		}
+		setIsSubmitting(true)
+		await new Promise(r => setTimeout(r, 2000))
+
+		const now = new Date()
+		const delivery = new Date()
+		delivery.setDate(now.getDate() + 3)
+
+		const order = {
+			id: `RC-${Math.floor(1000 + Math.random() * 9000)}`,
+			userEmail: user.email,
+			...formData,
+			price: totalPrice,
+			orderDate: now.toLocaleDateString(),
+			orderTime: now.toLocaleTimeString([], {
+				hour: '2-digit',
+				minute: '2-digit'
+			}),
+			deliveryDate: delivery.toLocaleDateString(),
+			status: 'На ПВЗ',
+			pickupPoint: 'ПВЗ-Северный (ул. Ленина, 10)'
+		}
+
+		const existing = JSON.parse(localStorage.getItem('ruscargo_orders') || '[]')
+		localStorage.setItem(
+			'ruscargo_orders',
+			JSON.stringify([...existing, order])
+		)
+
+		setIsSubmitting(false)
+		setIsSuccess(true)
+		toast.success('Заказ оформлен!')
 	}
 
 	return (
-		<div className='calculator-page reveal-visible'>
+		<section className='calc-page' ref={calcRef}>
+			<div className='bg-grid-lines'></div>
 			<div className='container'>
-				<button className='btn-back' onClick={() => navigate('/')}>
-					<ArrowLeft size={18} /> <span>Вернуться на главную</span>
-				</button>
+				<AnimatePresence mode='wait'>
+					{!isSuccess ? (
+						<motion.div
+							key='card'
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, scale: 0.95 }}
+							className='calc-card'
+						>
+							<div className='stepper-header'>
+								{[1, 2, 3].map(s => (
+									<div
+										key={s}
+										className={`step-dot ${step >= s ? 'active' : ''}`}
+									/>
+								))}
+							</div>
 
-				<div className='cargo-line'></div>
-				<h1 className='section-title'>
-					Интеллектуальный <span className='text-gold'>расчет</span>
-				</h1>
-
-				<div className='calc-grid'>
-					<div className='calc-main-column'>
-						{!isSent ? (
-							<form className='calc-form' onSubmit={handleSubmit}>
-								<div className='input-group'>
-									<label>Тип фрахта</label>
-									<div className='select-wrapper'>
-										<Box size={18} className='select-icon' />
-										<select
-											value={selectedService}
-											onChange={e => setSelectedService(e.target.value)}
-											className='custom-select'
-										>
-											{serviceOptions.map(opt => (
-												<option key={opt.id} value={opt.title}>
-													{opt.title}
-												</option>
-											))}
-										</select>
-									</div>
-								</div>
-
-								<div className='input-row-cities'>
-									<div className='input-group'>
+							{step === 1 && (
+								<div className='step-content'>
+									<span className='step-label'>01 / Route</span>
+									<h2 className='step-title'>
+										Маршрут<span>.</span>
+									</h2>
+									<div className='field'>
 										<label>Откуда</label>
 										<input
 											type='text'
-											required
-											value={fromCity}
-											onChange={e => setFromCity(e.target.value)}
-											className='input-field'
-											placeholder='Город'
+											placeholder='Город отправления'
+											value={formData.from}
+											onChange={e =>
+												setFormData({ ...formData, from: e.target.value })
+											}
 										/>
 									</div>
-									<ArrowRight
-										className='text-gold'
-										style={{ marginTop: '25px' }}
-									/>
-									<div className='input-group'>
+									<div className='field'>
 										<label>Куда</label>
 										<input
 											type='text'
-											required
-											value={toCity}
-											onChange={e => setToCity(e.target.value)}
-											className='input-field'
-											placeholder='Город'
+											placeholder='Город доставки'
+											value={formData.to}
+											onChange={e =>
+												setFormData({ ...formData, to: e.target.value })
+											}
 										/>
 									</div>
+									<button
+										className='btn-black-pill'
+										onClick={() => setStep(2)}
+										disabled={
+											formData.from.length < 2 || formData.to.length < 2
+										}
+									>
+										Далее <ArrowRight size={18} />
+									</button>
 								</div>
+							)}
 
-								<div className='input-group'>
-									<label>
-										Масса: <strong>{weight} кг</strong>
-									</label>
-									<input
-										type='range'
-										min='10'
-										max='15000'
-										value={weight}
-										onChange={e => setWeight(+e.target.value)}
-									/>
+							{step === 2 && (
+								<div className='step-content'>
+									<button className='btn-back-link' onClick={() => setStep(1)}>
+										<ArrowLeft size={14} /> Назад
+									</button>
+									<span className='step-label'>02 / Cargo</span>
+									<h2 className='step-title'>
+										Параметры<span>.</span>
+									</h2>
+									<div className='field'>
+										<label>Вес груза (кг)</label>
+										<input
+											type='number'
+											placeholder='0'
+											value={formData.weight || ''}
+											onChange={e =>
+												setFormData({
+													...formData,
+													weight: Number(e.target.value)
+												})
+											}
+										/>
+									</div>
+									<div className='field'>
+										<label>Транспорт</label>
+										<select
+											value={formData.vehicleType}
+											onChange={e =>
+												setFormData({
+													...formData,
+													vehicleType: e.target.value as any
+												})
+											}
+										>
+											<option value='small'>Standard (1.5т)</option>
+											<option value='medium'>Business (10т)</option>
+											<option value='large'>Enterprise (20т)</option>
+										</select>
+									</div>
+									<div className='field'>
+										<label>Комментарий</label>
+										<textarea
+											placeholder='Особые пожелания...'
+											value={formData.comment}
+											onChange={e =>
+												setFormData({ ...formData, comment: e.target.value })
+											}
+										/>
+									</div>
+									<button
+										className='btn-black-pill'
+										onClick={() => setStep(3)}
+										disabled={formData.weight <= 0}
+									>
+										Рассчитать
+									</button>
 								</div>
+							)}
 
+							{step === 3 && (
+								<div className='step-content result-center'>
+									<button className='btn-back-link' onClick={() => setStep(2)}>
+										<ArrowLeft size={14} /> Назад
+									</button>
+									<div className='price-display'>
+										<span className='p-tag'>Итоговая стоимость</span>
+										<h1 className='p-value'>{totalPrice.toLocaleString()} ₽</h1>
+									</div>
+									<div className='summary-card'>
+										<p>
+											<MapPin size={14} /> {formData.from} — {formData.to}
+										</p>
+										<p>
+											<Clock size={14} /> Доставка: ~3 дня
+										</p>
+									</div>
+									<button
+										className='btn-black-pill'
+										onClick={handleBooking}
+										disabled={isSubmitting}
+									>
+										{isSubmitting ? (
+											<Loader2 className='spin' />
+										) : (
+											'ЗАБРОНИРОВАТЬ'
+										)}
+									</button>
+								</div>
+							)}
+						</motion.div>
+					) : (
+						<motion.div
+							key='success'
+							initial={{ opacity: 0, scale: 0.9 }}
+							animate={{ opacity: 1, scale: 1 }}
+							className='calc-card success-view'
+						>
+							<CheckCircle2 size={64} strokeWidth={1} color='#C6A266' />
+							<h2>
+								Заявка принята<span>.</span>
+							</h2>
+							<p>
+								Ваш груз зафиксирован. Мы ждем вас на{' '}
+								<strong>ПВЗ-Северный</strong>.
+							</p>
+							<div className='success-btns'>
 								<button
-									className='btn-gold btn-full'
-									type='submit'
-									disabled={isLoading || distance === 0}
+									className='btn-black-pill'
+									onClick={() => navigate('/')}
 								>
-									{isLoading ? (
-										<span className='loader'></span>
-									) : (
-										<>
-											<Send size={18} /> Оформить заказ
-										</>
-									)}
+									На главную
 								</button>
-							</form>
-						) : (
-							<div className='success-message'>
-								<Zap size={48} color='var(--color-gold)' />
-								<h2>Заявка принята!</h2>
-								<p>Маршрут сохранен в базе MongoDB</p>
 								<button
-									className='btn-outline'
-									onClick={() => setIsSent(false)}
+									className='btn-outline-pill'
+									onClick={() => navigate('/admin')}
 								>
-									<RefreshCcw size={14} /> Новый расчет
+									В кабинет
 								</button>
 							</div>
-						)}
-					</div>
-
-					<div className='calc-result'>
-						<div className='result-card'>
-							<CalcIcon size={40} className='text-gold' />
-							<h3>Предварительный итог</h3>
-							<div className='price-display'>
-								{totalPrice.toLocaleString()} ₽
-							</div>
-							<div className='dist-info-badge'>{distance} км по маршруту</div>
-						</div>
-					</div>
-				</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</div>
-		</div>
+		</section>
 	)
 }
 
-export default CalculatorPage
+export default Calculator
