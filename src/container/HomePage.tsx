@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
 import TopHeader from '../components/Home/Header/Header'
 import Hero from '../components/Home/Hero/Hero'
-
-import About from '../components/Home/About/About'
-
 import Footer from '../components/Home/Footer/Footer'
+import FleetSpecs from '../components/Home/Fleet/Fleet'
+import Services from '../components/Home/Services/Services'
 
 const HomePage: React.FC = () => {
 	useEffect(() => {
@@ -28,7 +27,8 @@ const HomePage: React.FC = () => {
 				<Hero />
 				<div id='services' className='reveal'></div>
 				<div id='about' className='reveal delay-1'>
-					<About />
+					<FleetSpecs />
+					<Services />
 				</div>
 				<div id='manifest' className='reveal delay-2'></div>
 			</main>

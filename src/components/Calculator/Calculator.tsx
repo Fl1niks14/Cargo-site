@@ -7,7 +7,8 @@ import {
 	CheckCircle2,
 	MapPin,
 	Loader2,
-	Clock
+	Clock,
+	User
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import './Calculator.css'
@@ -24,6 +25,7 @@ const Calculator: React.FC = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const calcRef = useRef<HTMLDivElement>(null)
+	const [showAuthModal, setShowAuthModal] = useState(false)
 
 	const [step, setStep] = useState(1)
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -40,13 +42,20 @@ const Calculator: React.FC = () => {
 
 	useEffect(() => {
 		const savedUser = localStorage.getItem('currentUser')
-		if (savedUser) setUser(JSON.parse(savedUser))
+		if (savedUser) {
+			setUser(JSON.parse(savedUser))
+		} else {
+			const timer = setTimeout(() => setShowAuthModal(true), 1000)
+			return () => clearTimeout(timer)
+		}
+
 		if (location.state?.selectedVehicle) {
 			setFormData(prev => ({
 				...prev,
 				vehicleType: location.state.selectedVehicle
 			}))
 		}
+
 		if (location.state?.scrollTo) {
 			setTimeout(
 				() =>
@@ -68,33 +77,41 @@ const Calculator: React.FC = () => {
 	}, [formData])
 
 	const handleBooking = async () => {
-		if (!user) {
-			toast.error('Войдите для бронирования')
-			navigate('/login')
+		// ПРОВЕРКА АВТОРИЗАЦИИ
+		if (!user || !user.email) {
+			toast.error('Для бронирования необходимо войти в аккаунт')
+			localStorage.setItem('pending_order', JSON.stringify(formData))
+			navigate('/login') // Путь исправлен согласно вашему конфигу
 			return
 		}
+
 		setIsSubmitting(true)
+
+		// Имитация задержки сервера
 		await new Promise(r => setTimeout(r, 2000))
 
 		const now = new Date()
 		const delivery = new Date()
 		delivery.setDate(now.getDate() + 3)
 
+		// СОЗДАНИЕ ОБЪЕКТА ЗАКАЗА
 		const order = {
 			id: `RC-${Math.floor(1000 + Math.random() * 9000)}`,
 			userEmail: user.email,
 			...formData,
 			price: totalPrice,
+			createdAt: Date.now(), // КРИТИЧНО: для работы таймера в AdminPanel
 			orderDate: now.toLocaleDateString(),
 			orderTime: now.toLocaleTimeString([], {
 				hour: '2-digit',
 				minute: '2-digit'
 			}),
 			deliveryDate: delivery.toLocaleDateString(),
-			status: 'На ПВЗ',
+			status: 'Оформляется', // Начальный статус для анимации в кабинете
 			pickupPoint: 'ПВЗ-Северный (ул. Ленина, 10)'
 		}
 
+		// СОХРАНЕНИЕ
 		const existing = JSON.parse(localStorage.getItem('ruscargo_orders') || '[]')
 		localStorage.setItem(
 			'ruscargo_orders',
@@ -108,6 +125,42 @@ const Calculator: React.FC = () => {
 
 	return (
 		<section className='calc-page' ref={calcRef}>
+			{showAuthModal && (
+				<motion.div
+					className='modal-overlay'
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					exit={{ opacity: 0 }}
+				>
+					<motion.div
+						className='modal-card'
+						initial={{ scale: 0.95, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+					>
+						<div className='modal-icon-circle'>
+							<User size={28} strokeWidth={1.5} color='#C6A266' />
+						</div>
+
+						<h2 className='step-title'>
+							Личный кабинет<span>.</span>
+						</h2>
+
+						<p className='modal-description'>
+							Чтобы отслеживать статус своих заказов в реальном времени и видеть
+							историю, нужно авторизоваться.
+						</p>
+
+						<div className='modal-footer'>
+							<button
+								className='btn-black-pill'
+								onClick={() => navigate('/login')}
+							>
+								ВОЙТИ / РЕГИСТРАЦИЯ
+							</button>
+						</div>
+					</motion.div>
+				</motion.div>
+			)}
 			<div className='bg-grid-lines'></div>
 			<div className='container'>
 				<AnimatePresence mode='wait'>
@@ -269,10 +322,7 @@ const Calculator: React.FC = () => {
 							<h2>
 								Заявка принята<span>.</span>
 							</h2>
-							<p>
-								Ваш груз зафиксирован. Мы ждем вас на{' '}
-								<strong>ПВЗ-Северный</strong>.
-							</p>
+							<p>Ваш груз успешно зафиксирован в системе.</p>
 							<div className='success-btns'>
 								<button
 									className='btn-black-pill'

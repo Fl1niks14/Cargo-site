@@ -1,15 +1,15 @@
-import Calculator from '../components/Calculator/Calculator'
 import Footer from '../components/Home/Footer/Footer'
 import TopHeader from '../components/Home/Header/Header'
+import Pricing from '../components/PricingPlan/PricingPlan'
 
-const CalculatorPage: React.FC = () => {
+const Tariffs: React.FC = () => {
 	return (
 		<>
 			<TopHeader />
-			<Calculator />
+			<Pricing />
 			<Footer />
 		</>
 	)
 }
 
-export default CalculatorPage
+export default Tariffs

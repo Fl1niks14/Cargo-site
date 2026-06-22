@@ -1,0 +1,114 @@
+:root {
+	--accent: #d4a373;
+	--text-main: #111;
+	--text-muted: #777;
+	--bg-light: #ffffff;
+	--line: #eeeeee;
+	/* Очень светлая линия */
+}
+
+.services-light {
+	background: var(--bg-light);
+	color: var(--text-main);
+	padding: 120px 0;
+}
+
+.services__header {
+	margin-bottom: 80px;
+}
+
+.services__title {
+	font-size: clamp(48px, 8vw, 92px);
+	font-weight: 800;
+	text-transform: uppercase;
+	line-height: 0.9;
+	letter-spacing: -3px;
+	color: var(--text-main);
+}
+
+.services__title span {
+	color: var(--accent);
+	/* Твой бежевый на слове "решения" */
+}
+
+/* Линия перед таблицей */
+.services__table {
+	border-top: 1px solid var(--line);
+}
+
+.service-row {
+	display: grid;
+	grid-template-columns: 80px 1.5fr 1fr 1fr;
+	padding: 50px 0;
+	border-bottom: 1px solid var(--line);
+	transition: all 0.3s ease;
+	align-items: center;
+}
+
+.service-row:hover {
+	background: #fafafa;
+}
+
+.service-id {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--accent);
+}
+
+.service-info h3 {
+	font-size: 24px;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+	letter-spacing: -0.5px;
+}
+
+.service-info p {
+	font-size: 15px;
+	color: var(--text-muted);
+	max-width: 450px;
+	line-height: 1.6;
+}
+
+.service-tag span {
+	font-size: 12px;
+	font-weight: 800;
+	color: var(--text-main);
+	border: 1px solid var(--text-main);
+	padding: 4px 12px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.btn-order {
+	background: transparent;
+	border: none;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 12px;
+	cursor: pointer;
+	justify-self: end;
+	color: var(--text-main);
+	transition: color 0.2s;
+}
+
+.btn-order:hover {
+	color: var(--accent);
+}
+
+/* Адаптив */
+@media (max-width: 1024px) {
+	.service-row {
+		grid-template-columns: 1fr;
+		gap: 30px;
+		padding: 40px 20px;
+	}
+
+	.btn-order {
+		justify-self: start;
+	}
+}

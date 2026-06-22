@@ -1,86 +1,356 @@
-.dashboard-page {
-	padding-top: 140px;
-	background: #fafafa;
-	min-height: 100vh;
+:root {
+	--gold: #d4a373;
+	--dark: #111;
+	--gray-bg: #f9f9f9;
+	--border: #eeeeee;
 }
 
-.dashboard-title {
-	font-size: 2.5rem;
-	font-weight: 300;
-	margin-bottom: 50px;
-}
-
-.dashboard-title span {
-	font-weight: 700;
-	color: #C6A266;
-}
-
-.order-card {
+.admin-panel {
 	background: #fff;
-	padding: 40px;
-	border: 1px solid #eee;
-	margin-bottom: 25px;
+	min-height: 100vh;
+	padding: 80px 0;
+	color: var(--dark);
 }
 
-.order-card__header {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 30px;
-	border-bottom: 1px solid #f9f9f9;
-	padding-bottom: 20px;
+.admin-header {
+	margin-bottom: 60px;
 }
 
-.order-id {
-	font-weight: 700;
-	color: #ccc;
+.admin-title {
+	font-size: 42px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: -1px;
+	margin-bottom: 10px;
+}
+
+.admin-title span {
+	color: var(--gold);
+	font-weight: 400;
+}
+
+.admin-subtitle {
+	color: #888;
+	font-size: 14px;
+	text-transform: uppercase;
 	letter-spacing: 1px;
 }
 
-.order-status {
-	font-size: 0.7rem;
+/* Сетка таблицы */
+.orders-table {
+	border: 1px solid var(--border);
+}
+
+.table-head {
+	display: grid;
+	grid-template-columns: 120px 2fr 1.5fr 1fr 1fr;
+	padding: 20px 30px;
+	background: var(--gray-bg);
+	border-bottom: 1px solid var(--border);
+	font-size: 11px;
 	font-weight: 700;
 	text-transform: uppercase;
-	color: #C6A266;
+	color: #999;
 }
 
-/* ТАЙМЛАЙН - ДВЕ КОЛОНКИ */
-.order-card__timeline {
+.order-row {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 40px;
-	margin-bottom: 30px;
+	grid-template-columns: 120px 2fr 1.5fr 1fr 1fr;
+	padding: 30px;
+	border-bottom: 1px solid var(--border);
+	align-items: center;
+	transition: background 0.2s;
 }
 
-.time-label {
+.order-row:hover {
+	background: #fffdf9;
+}
+
+.col-id {
+	font-family: monospace;
+	font-weight: 600;
+	color: var(--gold);
+}
+
+.col-route {
 	display: flex;
 	align-items: center;
-	gap: 8px;
-	font-size: 0.65rem;
-	text-transform: uppercase;
+	gap: 15px;
+	font-weight: 600;
+}
+
+.city {
+	font-size: 16px;
+}
+
+.date-main {
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.date-sub {
+	font-size: 12px;
 	color: #aaa;
+}
+
+.status-badge {
+	font-size: 10px;
+	padding: 4px 10px;
+	border: 1px solid #ddd;
+	text-transform: uppercase;
+	font-weight: 700;
+	border-radius: 2px;
+}
+
+.col-price {
+	font-size: 18px;
+	font-weight: 700;
+	text-align: right;
+}
+
+.empty-state {
+	padding: 100px;
+	text-align: center;
+	color: #ccc;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.text-right {
+	text-align: right;
+}:root {
+	--gold: #C6A266;
+	--dark-bg: #111111;
+	--card-bg: #1a1a1a;
+	--text-gray: #888888;
+	--border: rgba(255, 255, 255, 0.08);
+}
+
+.admin-panel {
+	padding: 120px 0 60px;
+	min-height: 100vh;
+	background: var(--dark-bg);
+	color: #fff;
+}
+
+/* Шапка кабинета */
+.header-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	margin-bottom: 8px;
 }
 
-.time-value {
-	font-size: 1.1rem;
-	font-weight: 600;
-	color: #1a1a1a;
+.admin-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	letter-spacing: -1px;
 }
 
-.order-card__footer {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-end;
+.admin-title span {
+	color: var(--gold);
+	font-weight: 300;
 }
 
-.route {
+.admin-subtitle {
+	color: var(--text-gray);
+	margin-bottom: 40px;
+}
+
+/* Кнопка выхода */
+.btn-logout {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 8px;
+	background: transparent;
+	border: 1px solid var(--border);
+	color: #ff4d4d;
+	padding: 8px 16px;
+	border-radius: 100px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-size: 0.9rem;
+}
+
+.btn-logout:hover {
+	background: rgba(255, 77, 77, 0.1);
+	border-color: #ff4d4d;
+}
+
+/* Карточки статистики */
+.admin-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 20px;
+	margin-bottom: 40px;
+}
+
+.stat-card {
+	background: var(--card-bg);
+	padding: 24px;
+	border-radius: 20px;
+	border: 1px solid var(--border);
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.stat-card svg {
+	color: var(--gold);
+	padding: 10px;
+	background: rgba(198, 162, 102, 0.1);
+	border-radius: 12px;
+}
+
+.stat-label {
+	display: block;
+	color: var(--text-gray);
+	font-size: 0.85rem;
+	margin-bottom: 4px;
+}
+
+.stat-value {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+/* Таблица заказов */
+.orders-table {
+	background: var(--card-bg);
+	border-radius: 24px;
+	border: 1px solid var(--border);
+	overflow: hidden;
+}
+
+.table-head {
+	display: grid;
+	grid-template-columns: 1fr 2fr 1.5fr 1.5fr 1fr;
+	padding: 20px 30px;
+	background: rgba(255, 255, 255, 0.03);
+	color: var(--text-gray);
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.order-row {
+	display: grid;
+	grid-template-columns: 1fr 2fr 1.5fr 1.5fr 1fr;
+	padding: 25px 30px;
+	border-bottom: 1px solid var(--border);
+	align-items: center;
+	transition: background 0.3s ease;
+}
+
+.order-row:hover {
+	background: rgba(255, 255, 255, 0.02);
+}
+
+.col-id {
+	font-family: monospace;
+	color: var(--gold);
 	font-weight: 600;
 }
 
-.price {
-	font-size: 1.8rem;
+.col-route {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.city {
+	font-weight: 500;
+}
+
+.date-main {
+	font-weight: 500;
+}
+
+.date-sub {
+	font-size: 0.8rem;
+	color: var(--text-gray);
+}
+
+/* Статус-баджи */
+.status-badge {
+	display: inline-block;
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	background: rgba(255, 255, 255, 0.05);
+	color: #fff;
+}
+
+.status-badge.delivered {
+	background: rgba(76, 175, 80, 0.15);
+	color: #4caf50;
+}
+
+.col-price {
+	text-align: right;
 	font-weight: 700;
+	font-size: 1.1rem;
+}
+
+.empty-state {
+	padding: 60px;
+	text-align: center;
+	color: var(--text-gray);
+}
+
+/* Адаптив */
+@media (max-width: 992px) {
+	.table-head {
+		display: none;
+	}
+
+	.order-row {
+		grid-template-columns: 1fr 1fr;
+		gap: 15px;
+	}
+.status-badge {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	transition: all 0.5s ease;
+}
+
+/* Стиль "Оформляется" */
+.status-badge.processing {
+	background: rgba(255, 255, 255, 0.05);
+	color: #888;
+	border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+/* Стиль "На ПВЗ" */
+.status-badge.delivered {
+	background: rgba(198, 162, 102, 0.15);
+	color: #C6A266;
+	border: 1px solid rgba(198, 162, 102, 0.3);
+}
+
+.time-left {
+	font-size: 10px;
+	color: var(--gold);
+	margin-top: 4px;
+	opacity: 0.7;
+}
+
+.spin-slow {
+	animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+	.col-price {
+		text-align: left;
+	}
 }

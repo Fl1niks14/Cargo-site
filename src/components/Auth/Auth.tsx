@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
@@ -7,33 +7,50 @@ import './Auth.css'
 
 const Auth: React.FC = () => {
 	const [isLogin, setIsLogin] = useState(true)
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+
+	// Инициализируем стейт данными из localStorage, если они там есть
+	const [email, setEmail] = useState(localStorage.getItem('temp_email') || '')
+	const [password, setPassword] = useState(
+		localStorage.getItem('temp_pass') || ''
+	)
+
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const navigate = useNavigate()
 
+	// Сохраняем введенные данные в localStorage при каждом изменении,
+	// чтобы они не пропали при обновлении страницы
+	useEffect(() => {
+		localStorage.setItem('temp_email', email)
+		localStorage.setItem('temp_pass', password)
+	}, [email, password])
+
 	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault()
+		e.preventDefault() // Обязательно! Чтобы страница не перезагрузилась
 		setIsSubmitting(true)
 
-		// Имитируем "загрузку" для солидности (дипломная фишка)
 		await new Promise(resolve => setTimeout(resolve, 1000))
 
 		const users = JSON.parse(localStorage.getItem('ruscargo_users') || '[]')
 
 		if (isLogin) {
+			// ЛОГИКА ВХОДА
 			const user = users.find(
 				(u: any) => u.email === email && u.password === password
 			)
 			if (user) {
 				localStorage.setItem('currentUser', JSON.stringify(user))
-				window.dispatchEvent(new Event('storage')) // Обновляем хедер
+				// Очищаем временные данные формы после успешного входа
+				localStorage.removeItem('temp_email')
+				localStorage.removeItem('temp_pass')
+
+				window.dispatchEvent(new Event('storage'))
 				toast.success(`С возвращением!`)
 				navigate('/admin')
 			} else {
 				toast.error('Неверный логин или пароль')
 			}
 		} else {
+			// ЛОГИКА РЕГИСТРАЦИИ
 			if (users.find((u: any) => u.email === email)) {
 				toast.error('Email уже занят')
 			} else {
@@ -43,11 +60,13 @@ const Auth: React.FC = () => {
 					password,
 					name: email.split('@')[0]
 				}
-				localStorage.setItem(
-					'ruscargo_users',
-					JSON.stringify([...users, newUser])
-				)
+				const updatedUsers = [...users, newUser]
+				localStorage.setItem('ruscargo_users', JSON.stringify(updatedUsers))
 				localStorage.setItem('currentUser', JSON.stringify(newUser))
+
+				localStorage.removeItem('temp_email')
+				localStorage.removeItem('temp_pass')
+
 				window.dispatchEvent(new Event('storage'))
 				toast.success('Аккаунт создан!')
 				navigate('/admin')

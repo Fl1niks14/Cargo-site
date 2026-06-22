@@ -49,7 +49,13 @@ const TopHeader: React.FC = () => {
 						>
 							Калькулятор
 						</Link>
-						<a href='#pricing'>Тарифы</a>
+
+						<Link
+							to='/tariffs'
+							className={location.pathname === '/calc' ? 'active' : ''}
+						>
+							Тарифы
+						</Link>
 					</div>
 				</nav>
 

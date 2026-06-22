@@ -15,6 +15,8 @@
 .header__container {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	/* Изменено для корректного распределения на мобильных */
 	width: 100%;
 }
 
@@ -22,7 +24,11 @@
 	display: flex;
 	align-items: center;
 	flex: 1;
-	/* Равное распределение */
+}
+
+/* Левая колонка */
+.header__col--left {
+	justify-content: flex-start;
 }
 
 /* Центрируем навигацию */
@@ -33,7 +39,6 @@
 .nav__links {
 	display: flex;
 	gap: 40px;
-	/* Расстояние между ссылками */
 }
 
 .nav__links a {
@@ -97,6 +102,7 @@
 	font-size: 1.2rem;
 	font-weight: 800;
 	letter-spacing: 2px;
+	white-space: nowrap;
 }
 
 .header__logo span {
@@ -110,22 +116,99 @@
 	border-radius: 100px;
 	font-size: 0.75rem;
 	font-weight: 700;
-}.header__center {
-	display: flex;
-	gap: 40px;
-	/* Увеличиваем расстояние между ГЛАВНАЯ, КАЛЬКУЛЯТОР, ТАРИФЫ */
+	white-space: nowrap;
+	transition: 0.3s;
+}
+
+.login-pill:hover {
+	opacity: 0.9;
+}
+
+/* Кнопка бургера (по умолчанию скрыта) */
+.header__burger {
+	display: none;
+	background: none;
+	border: none;
+	color: #1a1a1a;
+	cursor: pointer;
+	padding: 5px;
+	z-index: 1001;
+	align-items: center;
 	justify-content: center;
 }
 
-.header__center a {
-	color: #999;
-	/* Делаем чуть светлее, чтобы не спорили с ЛОГО */
-	font-size: 0.75rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 1.5px;
-}
+/* ==========================================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ (для экранов меньше 992px)
+   ========================================================== */
+@media (max-width: 992px) {
+	.header__col {
+		flex: initial;
+		/* Отменяем flex: 1, чтобы элементы не растягивались искусственно */
+	}
 
-.header__center a:hover {
-	color: #1a1a1a;
+	.header__burger {
+		display: flex;
+		/* Показываем иконку меню */
+		order: 3;
+		/* Ставим в самый правый край */
+		margin-left: 20px;
+	}
+
+	.header__col--right {
+		order: 2;
+		/* Кнопка профиля/войти идет перед бургером */
+	}
+
+	/* Выпадающая навигационная панель */
+	.header__col--center {
+		position: fixed;
+		top: 80px;
+		/* Ровно под вашей шапкой */
+		left: 0;
+		width: 100%;
+		background: rgba(255, 255, 255, 0.98);
+		border-bottom: 1px solid #f0f0f0;
+		padding: 30px 0;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+
+		/* Анимация плавного появления сверху вниз */
+		transform: translateY(-150%);
+		opacity: 0;
+		pointer-events: none;
+		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+		z-index: 999;
+	}
+
+	/* Класс открытия для меню */
+	.header__col--center.open {
+		transform: translateY(0);
+		opacity: 1;
+		pointer-events: all;
+	}
+
+	/* Выстраиваем ссылки вертикально */
+	.nav__links {
+		flex-direction: column;
+		align-items: center;
+		gap: 25px;
+		width: 100%;
+	}
+
+	.nav__links a {
+		font-size: 0.9rem;
+		/* Чуть увеличиваем на мобилке для удобства нажатия */
+		width: 100%;
+		text-align: center;
+		padding: 5px 0;
+	}
+
+	/* Слегка уменьшаем паддинги кнопки "Войти" на мобилке */
+	.login-pill {
+		padding: 10px 20px;
+		font-size: 0.7rem;
+	}
+
+	.user-pill {
+		padding: 8px 16px;
+	}
 }

@@ -1,5 +1,11 @@
-const Reset: React.FC = () => {
-	return <>404</>
+import Reset from '../components/404/404'
+
+const Resett: React.FC = () => {
+	return (
+		<>
+			<Reset />
+		</>
+	)
 }
 
-export default Reset
+export default Resett
