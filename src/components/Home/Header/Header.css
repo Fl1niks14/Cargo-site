@@ -16,7 +16,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	/* Изменено для корректного распределения на мобильных */
 	width: 100%;
 }
 
@@ -26,12 +25,11 @@
 	flex: 1;
 }
 
-/* Левая колонка */
 .header__col--left {
 	justify-content: flex-start;
 }
 
-/* Центрируем навигацию */
+/* Центрируем навигацию на десктопе */
 .header__col--center {
 	justify-content: center;
 }
@@ -137,13 +135,43 @@
 	justify-content: center;
 }
 
+/* Дополнительные старые селекторы для обратной совместимости */
+.header__center {
+	display: flex;
+	gap: 40px;
+	justify-content: center;
+}
+
+.header__center a {
+	color: #999;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+}
+
+.header__center a:hover {
+	color: #1a1a1a;
+}
+
 /* ==========================================================
    МОБИЛЬНАЯ АДАПТАЦИЯ (для экранов меньше 992px)
    ========================================================== */
 @media (max-width: 992px) {
+	.header__container {
+		padding: 0 20px;
+		/* Боковые отступы, чтобы элементы не жались к краям */
+	}
+
 	.header__col {
 		flex: initial;
-		/* Отменяем flex: 1, чтобы элементы не растягивались искусственно */
+		/* Отменяем flex: 1 для корректных размеров */
+	}
+
+	.header__col--left,
+	.header__col--right {
+		flex: 0 0 auto;
+		/* Запрещаем сжатие логотипа и профиля */
 	}
 
 	.header__burger {
@@ -151,7 +179,7 @@
 		/* Показываем иконку меню */
 		order: 3;
 		/* Ставим в самый правый край */
-		margin-left: 20px;
+		margin-left: 15px;
 	}
 
 	.header__col--right {
@@ -196,13 +224,12 @@
 
 	.nav__links a {
 		font-size: 0.9rem;
-		/* Чуть увеличиваем на мобилке для удобства нажатия */
 		width: 100%;
 		text-align: center;
 		padding: 5px 0;
 	}
 
-	/* Слегка уменьшаем паддинги кнопки "Войти" на мобилке */
+	/* Коррекция размеров кнопок для компактности на смартфонах */
 	.login-pill {
 		padding: 10px 20px;
 		font-size: 0.7rem;
