@@ -238,4 +238,160 @@
 	.user-pill {
 		padding: 8px 16px;
 	}
+}/* --- Адаптивность шапки под мобильные телефоны --- */
+@media (max-width: 768px) {
+	.header__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 15px 20px;
+		width: 100%;
+	}
+
+	/* Логотип */
+	.header__col--left {
+		flex: 1;
+	}
+
+	/* Правая колонка с профилем и логаутом */
+	.header__col--right {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		/* Создаем безопасный отступ между профилем и выходом */
+		margin-right: 16px;
+		/* Отделяем блок профиля от кнопки бургер-меню */
+	}
+
+	/* Обертка профиля вошедшего пользователя */
+	.user-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	/* UX-Оптимизация плашки профиля: убираем жесткую ширину, делаем аккуратный овал */
+	.user-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		background: #fafafa;
+		border: 1px solid #eeeeee;
+		padding: 6px 12px;
+		border-radius: 100px;
+		text-decoration: none;
+		color: #1a1a1a;
+		font-size: 0.85rem;
+		font-weight: 500;
+	}
+
+	/* Кнопка иконки выхода [-> */
+	.logout-icon-btn {
+		background: transparent;
+		border: none;
+		color: #ff4d4d;
+		/* Окрашиваем выход в мягкий красный для интуитивного UX */
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px;
+		/* Увеличиваем зону клика */
+		border-radius: 50%;
+		transition: background-color 0.2s;
+	}
+
+	.logout-icon-btn:hover {
+		background-color: rgba(255, 77, 77, 0.05);
+	}
+
+	/* Кнопка открытия мобильного меню (бургер) */
+	.header__burger {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 6px;
+		color: #1a1a1a;
+	}
+} /* --- Адаптивность шапки под мобильные телефоны --- */
+@media (max-width: 768px) {
+	.header__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 15px 20px;
+		width: 100%;
+	}
+
+	/* Логотип */
+	.header__col--left {
+		flex: 1;
+	}
+
+	/* Правая колонка с профилем и логаутом */
+	.header__col--right {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		/* Создаем безопасный отступ между профилем и выходом */
+		margin-right: 16px;
+		/* Отделяем блок профиля от кнопки бургер-меню */
+	}
+
+	/* Обертка профиля вошедшего пользователя */
+	.user-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	/* UX-Оптимизация плашки профиля: убираем жесткую ширину, делаем аккуратный овал */
+	.user-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		background: #fafafa;
+		border: 1px solid #eeeeee;
+		padding: 6px 12px;
+		border-radius: 100px;
+		text-decoration: none;
+		color: #1a1a1a;
+		font-size: 0.85rem;
+		font-weight: 500;
+	}
+
+	/* Кнопка иконки выхода [-> */
+	.logout-icon-btn {
+		background: transparent;
+		border: none;
+		color: #ff4d4d;
+		/* Окрашиваем выход в мягкий красный для интуитивного UX */
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px;
+		/* Увеличиваем зону клика */
+		border-radius: 50%;
+		transition: background-color 0.2s;
+	}
+
+	.logout-icon-btn:hover {
+		background-color: rgba(255, 77, 77, 0.05);
+	}
+
+	/* Кнопка открытия мобильного меню (бургер) */
+	.header__burger {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 6px;
+		color: #1a1a1a;
+	}
 }

@@ -1,8 +1,19 @@
+/* ==========================================================================
+   БАЗОВЫЕ СТИЛИ ФУТЕРА (DESKTOP)
+   ========================================================================== */
 .footer {
 	background-color: #ffffff;
 	padding: 80px 0 40px;
 	border-top: 1px solid #eee;
 	color: #1a1a1a;
+	font-family: inherit;
+}
+
+.footer__container {
+	max-width: 1200px;
+	/* Настройте под вашу общую сетку сайта */
+	margin: 0 auto;
+	padding: 0 20px;
 }
 
 .footer__main {
@@ -20,18 +31,21 @@
 	font-size: 1.5rem;
 	font-weight: 700;
 	letter-spacing: 2px;
-	display: block;
+	display: inline-block;
 	margin-bottom: 20px;
+	text-decoration: none;
+	color: #1a1a1a;
 }
 
 .logo__dot {
 	color: #d4a373;
-	/* Твой золотой акцент */
+	/* Вашего золотой акцент */
 }
 
 .footer__description {
-	font-size: 0.9rem;
-	color: #888;
+	font-size: 0.95rem;
+	color: #666;
+	/* Улучшен контраст для читаемости */
 	line-height: 1.6;
 }
 
@@ -39,6 +53,10 @@
 .footer__groups {
 	display: flex;
 	gap: 80px;
+}
+
+.footer__group {
+	min-width: 140px;
 }
 
 .footer__group-title {
@@ -53,18 +71,28 @@
 .footer__links {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 4px;
+	/* Уменьшено, так как отступы перенесены внутрь самих ссылок */
 }
 
-.footer__links a {
+/* Стилизация всех видов ссылок в навигации */
+.footer__links a,
+.footer__links Link {
 	text-decoration: none;
 	color: #666;
-	font-size: 0.9rem;
-	transition: color 0.3s ease;
+	font-size: 0.95rem;
+	padding: 6px 0;
+	/* UX: Увеличивает область клика на десктопах */
+	display: inline-block;
+	transition: color 0.2s ease, transform 0.2s ease;
 }
 
+/* Эффект наведения на ссылки */
 .footer__links a:hover {
-	color: #000;
+	color: #d4a373;
+	/* Интерактивный золотой цвет при наведении */
+	transform: translateX(4px);
+	/* Легкий сдвиг вправо */
 }
 
 .footer__email {
@@ -72,29 +100,25 @@
 	text-underline-offset: 4px;
 }
 
-/* Соцсети */
-.footer__socials {
-	display: flex;
-	gap: 20px;
+/* Доступность: фокус при навигации с клавиатуры (клавиша Tab) */
+.footer__links a:focus-visible,
+.footer__legal a:focus-visible,
+.footer__logo:focus-visible {
+	outline: 2px solid #d4a373;
+	outline-offset: 4px;
+	border-radius: 4px;
 }
 
-.footer__socials a {
-	color: #1a1a1a;
-	transition: opacity 0.3s ease;
-}
-
-.footer__socials a:hover {
-	opacity: 0.6;
-}
-
-/* Нижняя часть */
+/* Нижняя часть подвала */
 .footer__bottom {
 	padding-top: 40px;
 	border-top: 1px solid #eee;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	font-size: 0.75rem;
-	color: #aaa;
+	color: #777;
+	/* Улучшен контраст текста */
 	text-transform: uppercase;
 	letter-spacing: 1px;
 }
@@ -107,4 +131,100 @@
 .footer__legal a {
 	color: inherit;
 	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.footer__legal a:hover {
+	color: #1a1a1a;
+	text-decoration: underline;
+}
+
+/* ==========================================================================
+   АДАПТИВНОСТЬ И UX ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ========================================================================== */
+
+/* Планшетная версия (меньше 992px) */
+@media (max-width: 992px) {
+	.footer {
+		padding: 60px 0 30px;
+	}
+
+	.footer__main {
+		gap: 40px;
+		margin-bottom: 50px;
+	}
+
+	.footer__groups {
+		gap: 50px;
+	}
+}
+
+/* Мобильная версия (меньше 768px) */
+@media (max-width: 768px) {
+	.footer__main {
+		flex-direction: column;
+		/* Элементы выстраиваются в одну вертикальную колонку */
+		align-items: flex-start;
+		gap: 35px;
+		margin-bottom: 40px;
+	}
+
+	.footer__brand {
+		max-width: 100%;
+		/* Текстовое описание занимает всю доступную ширину */
+	}
+
+	.footer__logo {
+		margin-bottom: 12px;
+	}
+
+	.footer__groups {
+		flex-direction: column;
+		/* Блоки навигации и контактов встают друг под друга */
+		gap: 30px;
+		width: 100%;
+	}
+
+	.footer__group {
+		width: 100%;
+	}
+
+	.footer__group-title {
+		margin-bottom: 15px;
+		/* Уплотняем контент для экономии высоты экрана */
+	}
+
+	/* UX-Оптимизация: Увеличиваем высоту кликабельной зоны под пальцы */
+	.footer__links a,
+	.footer__links Link {
+		padding: 8px 0;
+		display: inline-block;
+		width: fit-content;
+	}
+
+	/* Отключаем сдвиг вправо на мобилках, чтобы текст не прыгал под пальцем */
+	.footer__links a:hover {
+		transform: none;
+	}
+
+	/* Нижняя панель */
+	.footer__bottom {
+		padding-top: 25px;
+		flex-direction: column-reverse;
+		/* Документы сверху, копирайт — в самом низу экрана */
+		align-items: flex-start;
+		gap: 20px;
+	}
+
+	.footer__legal {
+		flex-direction: column;
+		/* Юридические ссылки встают в список */
+		gap: 12px;
+		width: 100%;
+	}
+
+	.footer__legal a {
+		padding: 4px 0;
+		display: inline-block;
+	}
 }

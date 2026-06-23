@@ -1,6 +1,10 @@
+/* ==========================================================================
+   БАЗОВЫЕ СТИЛИ СЕКЦИИ ТАРИФОВ (DESKTOP)
+   ========================================================================== */
 .pricing {
+	margin-top: 50px;
 	padding: 140px 0;
-	background: #fff;
+	background: #ffffff;
 	border-top: 1px solid #f0f0f0;
 }
 
@@ -14,6 +18,7 @@
 	letter-spacing: 4px;
 	font-size: 0.7rem;
 	color: #d4a373;
+	/* Фирменный золотой акцент */
 	font-weight: 700;
 	margin-bottom: 20px;
 	display: block;
@@ -22,8 +27,9 @@
 .pricing__title {
 	font-size: 3.5rem;
 	font-weight: 300;
-	line-height: 1;
+	line-height: 1.1;
 	margin-bottom: 30px;
+	color: #1a1a1a;
 }
 
 .pricing__title span {
@@ -31,37 +37,55 @@
 }
 
 .pricing__subtitle {
-	color: #888;
+	color: #666;
+	/* Повышен контраст с #888 для лучшей читаемости */
 	line-height: 1.6;
+	font-size: 1rem;
 }
 
-/* Сетка тарифов */
+/* Сетка тарифов (Элегантные разделительные линии через gap) */
 .pricing__grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 1px;
-	/* Тонкие линии между карточками */
 	background: #eee;
-	/* Цвет линий через gap */
 	border: 1px solid #eee;
 }
 
 .pricing-card {
-	background: #fff;
+	position: relative;
+	background: #ffffff;
 	padding: 60px 40px;
 	display: flex;
 	flex-direction: column;
-	transition: transform 0.3s ease;
+	transition: background-color 0.3s ease;
 }
 
+/* Выделенный популярный тариф */
 .pricing-card--featured {
 	background: #fafafa;
-	/* Выделенный тариф */
+}
+
+/* Декоративный бэйдж для популярного тарифа */
+.pricing-card__badge {
+	position: absolute;
+	top: 24px;
+	right: 40px;
+	background: #1a1a1a;
+	color: #ffffff;
+	font-size: 0.65rem;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	padding: 4px 10px;
+	font-weight: 700;
+	border-radius: 2px;
 }
 
 .pricing-card__icon {
 	color: #1a1a1a;
 	margin-bottom: 30px;
+	display: flex;
+	align-items: center;
 }
 
 .pricing-card__title {
@@ -70,13 +94,15 @@
 	margin-bottom: 15px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
+	color: #1a1a1a;
 }
 
 .pricing-card__desc {
 	font-size: 0.9rem;
-	color: #888;
+	color: #666;
 	margin-bottom: 30px;
 	min-height: 45px;
+	line-height: 1.5;
 }
 
 .pricing-card__price {
@@ -97,11 +123,18 @@
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	font-size: 0.9rem;
-	color: #666;
-	margin-bottom: 12px;
+	font-size: 0.95rem;
+	color: #444;
+	margin-bottom: 14px;
 }
 
+.feature-check-icon {
+	color: #d4a373;
+	/* Золотые галочки списка преимуществ */
+	flex-shrink: 0;
+}
+
+/* Кнопки управления и их премиальные состояния */
 .pricing-card__btn {
 	padding: 18px;
 	border: 1px solid #1a1a1a;
@@ -111,19 +144,127 @@
 	font-size: 0.75rem;
 	font-weight: 600;
 	cursor: pointer;
-	transition: all 0.3s;
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	width: 100%;
 }
 
-.pricing-card__btn:hover {
+/* Стили для обычной кнопки-аутлайн */
+.pricing-card__btn.btn-outline:hover {
 	background: #1a1a1a;
-	color: #fff;
+	color: #ffffff;
 }
 
+/* Инверсивный стиль для главной кнопки популярного тарифа */
+.pricing-card__btn.btn-gold {
+	background: #1a1a1a;
+	color: #ffffff;
+}
+
+.pricing-card__btn.btn-gold:hover {
+	background: #d4a373;
+	border-color: #d4a373;
+	color: #ffffff;
+}
+
+/* Доступность: фокус с клавиатуры (кнопка Tab) */
+.pricing-card__btn:focus-visible {
+	outline: 2px solid #d4a373;
+	outline-offset: 4px;
+}
+
+/* Информационная плашка снизу */
 .pricing__info-box {
-	margin-top: 60px;
+	margin-top: 40px;
 	display: flex;
 	align-items: center;
 	gap: 15px;
-	color: #aaa;
+	color: #888;
 	font-size: 0.85rem;
+	line-height: 1.4;
+}
+
+.info-icon {
+	color: #d4a373;
+	flex-shrink: 0;
+}
+
+/* ==========================================================================
+   АДАПТИВНОСТЬ ПОД ТАБЛЕТЫ И МОБИЛКИ (UX MOBILE OPTIMIZATION)
+   ========================================================================== */
+
+/* Планшеты (Меньше 992px) */
+@media (max-width: 992px) {
+	.pricing {
+		padding: 100px 0;
+	}
+
+	.pricing__title {
+		font-size: 2.8rem;
+	}
+
+	.pricing__header {
+		margin-bottom: 60px;
+	}
+
+	.pricing__grid {
+		/* Перестраиваем сетку: 1 популярный тариф сверху во всю ширину, 2 снизу */
+		grid-template-columns: 1fr;
+		background: transparent;
+		border: none;
+		gap: 24px;
+		/* Заменяем тонкие линии на полноценные отступы между карточками */
+	}
+
+	.pricing-card {
+		border: 1px solid #eee;
+		border-radius: 12px;
+		padding: 40px 30px;
+	}
+
+	.pricing-card__badge {
+		top: 30px;
+		right: 30px;
+	}
+
+	.pricing-card__features {
+		margin-bottom: 35px;
+	}
+}
+
+/* Мобильные телефоны (Меньше 576px) */
+@media (max-width: 576px) {
+	.pricing {
+		padding: 70px 0;
+	}
+
+	.pricing__title {
+		font-size: 2.2rem;
+	}
+
+	.pricing__header {
+		margin-bottom: 40px;
+	}
+
+	.pricing-card {
+		padding: 40px 20px;
+		/* Уменьшаем боковые поля, высвобождая место под текст преимуществ */
+	}
+
+	.pricing-card__badge {
+		position: static;
+		width: fit-content;
+		margin-bottom: 20px;
+	}
+
+	/* UX: Увеличиваем высоту кнопки на мобильных устройствах для точного попадания пальцем */
+	.pricing-card__btn {
+		padding: 20px;
+		font-size: 0.8rem;
+	}
+
+	.pricing__info-box {
+		margin-top: 30px;
+		align-items: flex-start;
+		/* Иконка часиков встает ровно по первой строчке длинного текста */
+	}
 }

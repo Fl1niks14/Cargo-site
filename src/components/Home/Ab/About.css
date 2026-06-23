@@ -1,0 +1,161 @@
+.about {
+	background-color: #ffffff;
+	padding: 120px 0;
+	color: #1a1a1a;
+	overflow: hidden;
+}
+
+.about__container {
+	display: flex;
+	justify-content: space-between;
+	gap: 80px;
+	align-items: flex-start;
+}
+
+/* Левая колонка */
+.about__content {
+	flex: 1 1 50%;
+	max-width: 540px;
+}
+
+.about__subtitle {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	color: #888;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.about__title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	line-height: 1.2;
+	margin-bottom: 35px;
+	letter-spacing: -0.5px;
+}
+
+.about__title span {
+	color: #d4a373;
+	/* Ваш золотой акцентный цвет */
+}
+
+.about__text-block {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.about__description {
+	font-size: 1rem;
+	color: #555;
+	line-height: 1.6;
+}
+
+/* Правая колонка: Карточки */
+.about__advantages {
+	flex: 1 1 45%;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	max-width: 440px;
+}
+
+.advantage-card {
+	background-color: #fcfcfc;
+	border: 1px solid #f0f0f0;
+	padding: 30px;
+	border-radius: 16px;
+	/* В стиле кнопки "Рассчитать путь" */
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto auto;
+	column-gap: 20px;
+	row-gap: 4px;
+	align-items: center;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Эффект при наведении на карточку */
+.advantage-card:hover {
+	background-color: #ffffff;
+	border-color: #d4a373;
+	transform: translateY(-4px);
+	box-shadow: 0 12px 30px rgba(212, 163, 115, 0.06);
+}
+
+.advantage-card__icon-wrapper {
+	grid-row: 1 / span 2;
+	background-color: #fff;
+	border: 1px solid #eee;
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+}
+
+.advantage-card:hover .advantage-card__icon-wrapper {
+	background-color: #1a1a1a;
+	border-color: #1a1a1a;
+}
+
+.advantage-card__icon {
+	color: #d4a373;
+	transition: color 0.3s ease;
+}
+
+.advantage-card:hover .advantage-card__icon {
+	color: #ffffff;
+}
+
+.advantage-card__number {
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: #1a1a1a;
+	letter-spacing: -0.5px;
+}
+
+.advantage-card__text {
+	font-size: 0.9rem;
+	color: #666;
+	line-height: 1.4;
+}
+
+/* --- Адаптивность для планшетов и мобилок --- */
+@media (max-width: 992px) {
+	.about {
+		padding: 80px 0;
+	}
+
+	.about__container {
+		flex-direction: column;
+		gap: 50px;
+	}
+
+	.about__content,
+	.about__advantages {
+		flex: 1 1 100%;
+		max-width: 100%;
+	}
+}
+
+@media (max-width: 576px) {
+	.about__title {
+		font-size: 2rem;
+	}
+
+	.advantage-card {
+		padding: 20px;
+		grid-template-columns: 1fr;
+		grid-template-rows: repeat(3, auto);
+		gap: 12px;
+		justify-items: start;
+	}
+
+	.advantage-card__icon-wrapper {
+		grid-row: auto;
+	}
+}

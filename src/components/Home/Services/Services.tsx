@@ -56,10 +56,7 @@ const Services: React.FC = () => {
                 <span>{item.tag}</span>
               </div>
               <div className="service-action">
-                <button
-                  className="btn-order"
-                  onClick={() => navigate("/calc")} // 3. Добавляем переход
-                >
+                <button className="btn-order" onClick={() => navigate("/calc")}>
                   Заказать <ArrowUpRight size={18} />
                 </button>
               </div>
